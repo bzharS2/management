@@ -8,4 +8,4 @@ const db=mysql.createConnection({
     database:"student_management"
 })
 
-export default db
+module.exports=db
