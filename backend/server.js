@@ -42,7 +42,7 @@ app.put('/student', (req, res) => {
             return res.status(400).json({ error: err.message })
         } else if (result.affectedRows == 0) {
             return res.status(400).json({ error: 'id is out of bounds' })
-        } 
+        }
         res.json(result)
     })
 })
@@ -97,6 +97,16 @@ app.get('/student/sort/age', (req, res) => {
             return res.status(400).json({ error: err.message })
         } else if (result.length == 0) {
             return res.status(400).json({ error: 'this is for ordering by age' })
+        }
+        return res.json(result)
+    })
+})
+app.get('/student/sort/first_name', (req, res) => {
+    db.query('SELECT * FROM students ORDER BY first_name ASC', (err, result) => {
+        if (err) {
+            return res.status(400).json({ error: err.message })
+        } else if (result.length == 0) {
+            return res.status(400).json({ error: 'this is for ordering by first_name' })
         }
         return res.json(result)
     })

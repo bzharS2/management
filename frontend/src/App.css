@@ -1,98 +1,64 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600&display=swap");
+/* ===================================================
+   STUDENTS APP — "Roster / Folder Card" theme
+   Color-coded file-tab cards, denim + ochre palette
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  --paper: #eef0e8;
-  --card: #fffef9;
-  --ink: #263238;
-  --ink-soft: #5b6670;
-  --accent: #3e7c6b; /* pine green */
-  --accent-soft: #cfe0d6;
-  --highlight: #e0a94c; /* mustard */
-  --danger: #b65b4b; /* muted brick red */
-  --line: #d9d4c0;
-  --shadow: rgba(38, 49, 56, 0.14);
+  --bg: #eef1f4;
+  --card: #ffffff;
+  --ink: #1f2937;
+  --ink-soft: #64748b;
+  --accent: #2f5d8a;      /* denim blue */
+  --accent-soft: #dbe6ef;
+  --danger: #b3403a;
+  --line: #dde3e9;
+  --shadow: rgba(31, 41, 55, 0.12);
+
+  /* cycling folder-tab colors */
+  --tab-1: #2f5d8a;
+  --tab-2: #7a5195;
+  --tab-3: #2f8a74;
+  --tab-4: #a97a2f;
 }
 
 * {
   box-sizing: border-box;
 }
-.app-title {
-  font-family: "Caveat", cursive;
-  font-weight: 700;
-  font-size: 2.6rem;
-  color: var(--accent);
-  text-align: center;
-  margin: 0 0 28px;
-  transform: rotate(-1deg);
-}
-.student-name {
-  font-family: "Caveat", cursive;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--accent);
-  margin: 6px 0 10px;
-}
+
 .student-app {
-  background: var(--paper);
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgba(38, 49, 56, 0.05) 1px,
-    transparent 0
-  );
-  background-size: 22px 22px;
+  background: var(--bg);
   min-height: 100vh;
   padding: 40px 24px 80px;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   color: var(--ink);
 }
 
-.students {
-  max-width: 900px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 28px 20px;
-  padding-top: 10px;
-}
-.student-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  padding: 20px 18px 16px;
-  box-shadow: 0 4px 10px var(--shadow);
-  position: relative;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
-}
-.student-card::before {
-  content: "";
-  position: absolute;
-  top: -9px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 16px;
-  height: 16px;
-  background: var(--highlight);
-  border-radius: 50%;
-  box-shadow: 0 2px 4px var(--shadow);
+/* ---------- Headings ---------- */
+
+.app-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: var(--accent);
+  text-align: center;
+  margin: 36px 0 24px;
 }
 
-.student-card:hover {
-  transform: rotate(0deg) translateY(-4px);
-  box-shadow: 0 10px 20px var(--shadow);
-}
+/* ---------- Form card ---------- */
 
 .student-form {
   background: var(--card);
-  max-width: 640px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 24px 28px;
-  border-radius: 4px;
+  padding: 26px 28px;
+  border-radius: 8px;
   border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
   box-shadow: 0 6px 18px var(--shadow);
-  position: relative;
 }
+
 .field-label {
   display: block;
   font-size: 0.85rem;
@@ -101,45 +67,69 @@
   margin-top: 14px;
   margin-bottom: 6px;
 }
+
 .student-input {
   width: 100%;
   padding: 10px 12px;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   color: var(--ink);
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 4px;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  border-radius: 6px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+.student-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Search input sits outside the form, style it consistently but a bit narrower */
+input[name="search"] {
+  max-width: 260px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* ---------- Buttons ---------- */
+
 .btn {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.85rem;
-  padding: 8px 16px;
+  padding: 9px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background 0.15s ease;
+  color: #fff;
+  background: var(--ink-soft);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
 }
+
+.btn:hover {
+  opacity: 0.9;
+  box-shadow: 0 3px 10px var(--shadow);
+}
+
 .btn:active {
   transform: translateY(1px);
 }
+
 .btn-submit {
   margin-top: 18px;
+  width: 100%;
   background: var(--accent);
-  color: #fff;
+  font-size: 0.95rem;
+  padding: 11px 18px;
 }
-.btn-submit:hover {
-  background: #346a5b;
-  box-shadow: 0 3px 10px var(--shadow);
+
+.btn-update {
+  background: var(--accent-soft);
+  color: var(--accent);
 }
+
 .btn-delete {
   background: transparent;
   color: var(--danger);
@@ -150,12 +140,113 @@
   background: var(--danger);
   color: #fff;
 }
-.btn-update {
-  background: var(--accent-soft);
+
+/* The sort buttons carry their own inline backgroundColor (green/gray) for
+   active state, so they'll keep that logic — this just gives them the same
+   shape/type/spacing as the rest of the buttons. */
+
+/* ---------- Message banner ---------- */
+
+.students > h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 640px;
+  margin: 10px auto 24px;
+}
+
+/* ---------- Roster grid ---------- */
+
+.students {
+  max-width: 1000px;
+  margin: 30px auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.student-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px 18px 16px;
+  box-shadow: 0 4px 10px var(--shadow);
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.student-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 40px;
+  height: 6px;
+  border-radius: 0 0 4px 4px;
+  background: var(--tab-1);
+}
+
+.students .student-card:nth-child(4n+2)::before { background: var(--tab-2); }
+.students .student-card:nth-child(4n+3)::before { background: var(--tab-3); }
+.students .student-card:nth-child(4n)::before   { background: var(--tab-4); }
+
+.student-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.student-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin: 6px 0 2px;
+}
+
+/* Last name sits right under the first name */
+.student-card h3:nth-of-type(2) {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+}
+
+/* Email row */
+.student-card h3:nth-of-type(3) {
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--accent);
+  margin: 0 0 4px;
+}
+.student-card h3:nth-of-type(3)::before {
+  content: "✉ ";
+}
+
+/* Age row */
+.student-card h3:nth-of-type(4) {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+.student-card h3:nth-of-type(4)::before {
+  content: "Age: ";
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.student-card .btn {
   margin-right: 8px;
 }
 
-.btn-update:hover {
-  background: #bfd6c8;
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  .app-title {
+    font-size: 1.5rem;
+  }
+  .student-form {
+    padding: 20px 16px;
+  }
 }

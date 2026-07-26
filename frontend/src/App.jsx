@@ -20,11 +20,18 @@ function Main() {
   const [ID, setId] = useState();
   const [fromUpdate, setFromUpdate] = useState(false);
   const [ageSort, setAgeSort] = useState(false);
+  const [fnameSort, setFnameSort] = useState(false);
+  const [search, setSearch] = useState();
+  const [message, setMessage] = useState("");
 
   async function fetching() {
     const response = await fetch("http://localhost:5000/");
     const data = await response.json();
+
     setStudents(data);
+    if (data.length == 0) {
+      setMessage("no students");
+    }
   }
   async function add() {
     if (!fromUpdate) {
@@ -77,21 +84,51 @@ function Main() {
     setId(id);
     setFromUpdate(true);
   }
-  async function Sorting(state) {
-    if (state) {
-
+  async function SortingAge(State) {
+    if (State) {
       const response = await fetch("http://localhost:5000/student/sort/age");
       const data = await response.json();
       setStudents(data);
     } else {
       fetching();
     }
-    
   }
-  function isSort() {
-    let newState=!ageSort
+  async function SortingName(State) {
+    if (State) {
+      const response = await fetch(
+        "http://localhost:5000/student/sort/first_name",
+      );
+      const data = await response.json();
+      setStudents(data);
+    } else {
+      fetching();
+    }
+  }
+  function isAgeSort() {
+    let falseState = false;
+    setFnameSort(falseState);
+    let newState = !ageSort;
     setAgeSort(newState);
-    Sorting(newState);
+    SortingAge(newState);
+  }
+  function isNameSort() {
+    let falseState = false;
+    setAgeSort(falseState);
+    let newState = !fnameSort;
+    setFnameSort(newState);
+    SortingName(newState);
+  }
+  async function searchStudent() {
+    if (search.trim() === "") {
+      fetching();
+      return;
+    }
+    const response = await fetch(
+      `http://localhost:5000/student?first_name=${search}`,
+    );
+
+    const data = await response.json();
+    setStudents(data);
   }
   useEffect(() => {
     function getStudents() {
@@ -163,14 +200,55 @@ function Main() {
         />
         <br />
         <br />
-        <button className="btn btn-submit">Submit</button>
+        <button className="btn btn-submit">
+          {" "}
+          {fromUpdate ? "Update Student" : "Add Student"}
+        </button>
       </form>
+      <label htmlFor="age" className="field-label">
+        Search by First_Name{" "}
+      </label>
+      <input
+        type="text"
+        className="student-input"
+        name="search"
+        maxLength={20}
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+      />
+      <button
+        className="btn"
+        onClick={() => {
+          searchStudent();
+        }}
+      >
+        Search
+      </button>
+      <br />
       <br />
       <h3 className="app-title">Welcome to the Students page</h3>
-      <button className="btn " id="btn-sort" style={{backgroundColor : ageSort ? "green" : "gray"}} onClick={() => {isSort()}}>
+      <button
+        className="btn "
+        style={{ backgroundColor: ageSort ? "green" : "gray" }}
+        onClick={() => {
+          isAgeSort();
+        }}
+      >
         sort by age
       </button>
+      <button
+        className=" btn"
+        style={{ backgroundColor: fnameSort ? "green" : "gray" }}
+        onClick={() => {
+          isNameSort();
+        }}
+      >
+        sort by First name
+      </button>
+
       <div className="students">
+    <h2 style={{color:"black"}}>{message}</h2>
         {students.map((student) => (
           <div key={student.id} className="student-card">
             <h3 className="student-name">{student.first_name}</h3>
