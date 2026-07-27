@@ -65,6 +65,13 @@ function Main() {
   }
 
   async function remove(id) {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this student",
+    );
+    if (!confirm) {
+      return;
+    }
+
     await fetch("http://localhost:5000/student", {
       method: "Delete",
       headers: {
@@ -205,8 +212,9 @@ function Main() {
           {fromUpdate ? "Update Student" : "Add Student"}
         </button>
       </form>
+
       <label htmlFor="age" className="field-label">
-        Search by First_Name{" "}
+        Search by First Name{" "}
       </label>
       <input
         type="text"
@@ -227,7 +235,9 @@ function Main() {
       </button>
       <br />
       <br />
+
       <h3 className="app-title">Welcome to the Students page</h3>
+
       <button
         className="btn "
         style={{ backgroundColor: ageSort ? "green" : "gray" }}
@@ -247,8 +257,11 @@ function Main() {
         sort by First name
       </button>
 
+      <h2 className="roster-message" style={{ color: "black" }}>
+        {message}
+      </h2>
+
       <div className="students">
-    <h2 style={{color:"black"}}>{message}</h2>
         {students.map((student) => (
           <div key={student.id} className="student-card">
             <h3 className="student-name">{student.first_name}</h3>
