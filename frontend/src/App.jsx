@@ -1,4 +1,9 @@
 /* eslint-disable no-unused-vars */
+import StudentForm from "./components/studentForm";
+import SearchBar from "./components/searchBar";
+import SortButton from "./components/sortButton";
+import StudentList from "./components/studentList";
+
 import {
   Link,
   BrowserRouter,
@@ -16,7 +21,7 @@ function Main() {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [age, setAge] = useState();
+  const [age, setAge] = useState("");
   const [ID, setId] = useState();
   const [fromUpdate, setFromUpdate] = useState(false);
   const [ageSort, setAgeSort] = useState(false);
@@ -32,8 +37,13 @@ function Main() {
     if (data.length == 0) {
       setMessage("no students");
     }
+    setAge("")
+    setEmail("")
+    setFirstName("")
+    setLastName("")
   }
-  async function add() {
+  async function add(e) {
+    e.preventDefault();
     if (!fromUpdate) {
       await fetch("http://localhost:5000/student", {
         method: "POST",
@@ -61,7 +71,10 @@ function Main() {
           age,
         }),
       });
+      setFromUpdate(false);
     }
+    fetching();
+  
   }
 
   async function remove(id) {
@@ -145,154 +158,27 @@ function Main() {
   }, []);
   return (
     <div className="student-app">
-      <form className="student-form" onSubmit={add}>
-        <label htmlFor="FirstName" className="field-label">
-          Enter the first name{" "}
-        </label>
-        <input
-          value={first_name}
-          className="student-input"
-          type="text"
-          name="FirstName"
-          required
-          maxLength={15}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
-        />
-        <br />
-        <label htmlFor="LastName" className="field-label">
-          Enter the last name{" "}
-        </label>
-        <input
-          value={last_name}
-          type="text"
-          name="LastName"
-          className="student-input"
-          required
-          maxLength={15}
-          onChange={(e) => {
-            setLastName(e.target.value);
-          }}
-        />
-        <br />
-        <label htmlFor="email" className="field-label">
-          Enter the email{" "}
-        </label>
-        <input
-          value={email}
-          type="text"
-          name="email"
-          className="student-input"
-          required
-          maxLength={50}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <br />
-        <label htmlFor="age" className="field-label">
-          Enter the age{" "}
-        </label>
-        <input
-          value={age}
-          type="number"
-          className="student-input"
-          name="age"
-          required
-          maxLength={2}
-          onChange={(e) => {
-            setAge(e.target.value);
-          }}
-        />
-        <br />
-        <br />
-        <button className="btn btn-submit">
-          {" "}
-          {fromUpdate ? "Update Student" : "Add Student"}
-        </button>
-      </form>
-
-      <label htmlFor="age" className="field-label">
-        Search by First Name{" "}
-      </label>
-      <input
-        type="text"
-        className="student-input"
-        name="search"
-        maxLength={20}
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
+      <StudentForm
+        age={age}
+        email={email}
+        first_name={first_name}
+        last_name={last_name}
+        setAge={setAge}
+        setEmail={setEmail}
+        setFirstName={setFirstName}
+        setLastName={setLastName}
+        fromUpdate={fromUpdate}
+        add={add}
       />
-      <button
-        className="btn"
-        onClick={() => {
-          searchStudent();
-        }}
-      >
-        Search
-      </button>
+      <SearchBar setSearch={setSearch} searchStudent={searchStudent} /><br />
+      <SortButton
+        ageSort={ageSort}
+        fnameSort={fnameSort}
+        isAgeSort={isAgeSort}
+        isNameSort={isNameSort}
+      />
       <br />
-      <br />
-
-      <h3 className="app-title">Welcome to the Students page</h3>
-
-      <button
-        className="btn "
-        style={{ backgroundColor: ageSort ? "green" : "gray" }}
-        onClick={() => {
-          isAgeSort();
-        }}
-      >
-        sort by age
-      </button>
-      <button
-        className=" btn"
-        style={{ backgroundColor: fnameSort ? "green" : "gray" }}
-        onClick={() => {
-          isNameSort();
-        }}
-      >
-        sort by First name
-      </button>
-
-      <h2 className="roster-message" style={{ color: "black" }}>
-        {message}
-      </h2>
-
-      <div className="students">
-        {students.map((student) => (
-          <div key={student.id} className="student-card">
-            <h3 className="student-name">{student.first_name}</h3>
-            <h3>{student.last_name}</h3>
-            <h3>{student.email}</h3>
-            <h3>{student.age}</h3>
-            <button
-              className="btn  btn-delete"
-              onClick={() => {
-                remove(student.id);
-              }}
-            >
-              Delete
-            </button>
-            <button
-              className="btn  btn-update"
-              onClick={() => {
-                Update(
-                  student.id,
-                  student.first_name,
-                  student.last_name,
-                  student.email,
-                  student.age,
-                );
-              }}
-            >
-              update
-            </button>
-          </div>
-        ))}
-      </div>
+      <StudentList students={students} remove={remove} update={Update} />
     </div>
   );
 }
